@@ -40,8 +40,16 @@ BOARD_BATTERY_DEVICE_NAME := "battery"
 BOARD_CHARGING_CMDLINE_NAME := "androidboot.bootchg"
 BOARD_CHARGING_CMDLINE_VALUE := "true"
 
-# Classpath
-PRODUCT_BOOT_JARS := $(subst $(space),:,$(PRODUCT_BOOT_JARS))
+# Charging Mode Override.
+BOARD_CHARGING_MODE_BOOTING_LPM := 
+
+# Audio
+BOARD_HAVE_SAMSUNG_AUDIO := true
+BOARD_USES_ALSA_AUDIO := true
+BOARD_USES_FLUENCE_INCALL := true
+BOARD_USES_FLUENCE_FOR_VOIP := true
+BOARD_USES_SEPERATED_AUDIO_INPUT := true
+TARGET_USES_QCOM_COMPRESSED_AUDIO := true
 
 # Display
 BOARD_EGL_CFG := device/samsung/msm8974-common/configs/egl.cfg
