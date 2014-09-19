@@ -83,11 +83,9 @@ static int consumerir_transmit(struct consumerir_device *dev,
     int buffer_len = 0;
     int buffer_size = 128;
     int i;
-    char *buffer;
+    char buffer[2048];
 
-    if ((buffer = malloc(buffer_size)) == NULL) {
-        return -ENOMEM;
-    }
+    memset(buffer, 0, 2048);
 
     /* write the header */
     if (! append_number(&buffer, &buffer_len, &buffer_size, carrier_freq)) {
