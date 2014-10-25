@@ -83,9 +83,11 @@ static int consumerir_transmit(struct consumerir_device *dev,
     int buffer_len = 0;
     int buffer_size = 128;
     int i;
-    char buffer[2048];
+    char *buffer;
 
-    memset(buffer, 0, 2048);
+    if ((buffer = malloc(buffer_size)) == NULL) {
+        return -ENOMEM;
+    }
 
     /* write the header */
     if (! append_number(&buffer, &buffer_len, &buffer_size, carrier_freq)) {
@@ -95,13 +97,12 @@ static int consumerir_transmit(struct consumerir_device *dev,
     /* calculate factor of conversion from microseconds to pulses */
     float factor = 1000000 / carrier_freq;
 
-    /* calculate factor of conversion from microseconds to pulses */
-    float factor = 1000000 / carrier_freq;
-
     /* write out the timing pattern */
     for (i = 0; i < pattern_len; i++)
     {
-        strlen += sprintf(buffer + strlen, "%d,", (int) (pattern[i]/factor));
+        if (! append_number(&buffer, &buffer_len, &buffer_size, (int) (pattern[i]/factor))) {
+            goto error;
+        }
     }
 
     buffer[buffer_len - 1] = 0;
